@@ -20,8 +20,11 @@ class AppController():
         self.root.mainloop()
 
     def draw_root_window(self):
+        """
+        Рисует главное окно с кнопками
+        """
         root = Tk()
-        root.config(height = 300, width = 600)
+        root.title('Уменьшалка фотографий')
         root.geometry('500x400')
         root.protocol("WM_DELETE_WINDOW", self.close_app)
         self.root = root
@@ -43,6 +46,9 @@ class AppController():
         Label(root, text = 'Это уменьшалка для больших фотографий').pack(side = 'bottom')
 
     def open_dir(self, ev):
+        """
+        Создает диалоговое окно для выбора папки
+        """
         path = tkinter.filedialog.Directory(
             self.root, initialdir = self.cfg['last_opened']
         ).show()
@@ -53,6 +59,9 @@ class AppController():
         self.images_list.resize_selected()
 
     def read_files_in(self, path = None):
+        """
+        Запоминает текущую папку, вызывает метод read_files_in у images_list
+        """
         if path == None: path = self.cfg.get('last_opened', self.cfg['curr_path'])
         self.cfg['last_opened'] = path
         self.images_list.read_files_in(path)
@@ -61,6 +70,9 @@ class AppController():
         self.path_input.insert(0, path)
 
     def read_cfg(self):
+        """
+        Читает состояние из файла
+        """
         if os.path.isfile(self.cfg_path):
             lines = open(self.cfg_path, 'r').readlines()
             for one in lines:
@@ -70,7 +82,11 @@ class AppController():
             print("Config read: {0}".format(self.cfg))
         else:
             print("No config file...")
+
     def write_cfg(self):
+        """
+        Сохраняет состояние в файл
+        """
         print("Saving config: {0}".format(self.cfg))
         f = open(self.cfg_path, 'w')
         for key, value in self.cfg.items():
@@ -78,6 +94,9 @@ class AppController():
         f.close()
 
     def close_app(self):
+        """
+        Обработчик закрытия приложения
+        """
         self.write_cfg()
         self.root.destroy()
 
