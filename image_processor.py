@@ -18,6 +18,6 @@ class ImageProcessor():
         Уменьшает изображение img_path и сохраняет его в *_resized.jpg
         """
         new_name = "%s_resized.jpg"%(os.path.splitext(img_path)[0])
-        command = "convert -resize 50% {0} {1}".format(img_path, new_name)
+        command = "convert -resize 50% '{0}' '{1}'".format(img_path, new_name)
         cls.exec_command(command)
         
